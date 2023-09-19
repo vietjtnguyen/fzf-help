@@ -28,22 +28,5 @@ parse_args() {
     done
 }
 
-get_regex() {
-    if [[ -z $CLI_OPTIONS_REGEX ]]; then
-        PREFIX='(?<=[^\-])(--|‐‐)' # 2 different types of dashes, different key-codes
-        HEAD='a-zA-Z0-9\['
-        MIDDLE='a-zA-Z0-9\[\]\-\=\.\,\%'
-        TAIL='a-zA-Z0-9'
-        LONG="($PREFIX)([$HEAD]+[$MIDDLE]*[$TAIL]+)"
-
-        PREFIX='(?<=[^\-a-zA-Z0-9])(-)'
-        TAIL='[a-zA-Z]{1}'
-        SHORT="($PREFIX)($TAIL)"
-
-        CLI_OPTIONS_REGEX="$LONG|$SHORT"
-    fi
-    echo "$CLI_OPTIONS_REGEX"
-}
-
 parse_args "$@"
-ag --only-matching --numbers -- "$(get_regex)"
+rg --only-matching --line-number --replace '$1' -- "^\s*(-{1,2}[a-zA-Z0-9\-_=]+)"
