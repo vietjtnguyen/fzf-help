@@ -5,7 +5,7 @@ usage="Usage: $(basename "$0") [-h | --help] <cmd>
 Displays the cli options for <cmd> using fzf, allowing the user to select one
 of them. The options is send to stdout when it is accepted. In the preview
 window, the selected option is highlighted and the help message for the option
-is displayed. 
+is displayed.
 
 The <cmd> can also be provided via stdin. The <cmd> can also containt options
 which will be stripped. For example, \`rm -rf\` will be treated as \`rm\`.

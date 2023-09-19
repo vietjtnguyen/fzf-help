@@ -4,7 +4,7 @@ this_dir=$(dirname $(realpath ${BASH_SOURCE:-$0}))
 # fzf-help-widget
 #
 # fzf-help-widget is a bash widget that should be bind to a key. It will open
-# fzf with the help options and append the selected options to the command 
+# fzf with the help options and append the selected options to the command
 # line.
 ##############################################################################
 fzf-help-widget() {
