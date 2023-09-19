@@ -76,7 +76,7 @@ parse_args "$@"
 get_fzf_help_opts
 
 dir=$(dirname $(realpath ${BASH_SOURCE:-$0}))
-opts="$($dir/help-message "$cmd" | $dir/cli-options.py)"
+opts="$($dir/help-message "$cmd" | $dir/cli-options)"
 preview_cmd=$(get_preview_cmd)
 
 remove_line_number <<<"$opts" | fzf --prompt="$buffer" --preview "$preview_cmd" $FZF_HELP_OPTS

@@ -1,32 +1,25 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python3
+import argparse
+import re
+import sys
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description=r'''
+            Returns commad line flags/options parsed from the input stream.
+            The options are extracted using the Python regex '(?:^\s*|.+,
+            )(-{1,2}[a-zA-Z0-9\-_]+=?)', of which there can be multiple matches
+            on a single line. Matches are output with the line number, a colon,
+            and the flag/option itself.''')
+    parser.add_argument(
+        'istream',
+        nargs='?',
+        type=argparse.FileType('rb'),
+        default=sys.stdin,
+        help='''
+            input file (default: read from stdin)''')
+    args = parser.parse_args()
+    pattern = re.compile(r'(?:^\s*|.+, )(-{1,2}[a-zA-Z0-9\-_]+=?)')
+    for line_no, line in enumerate(args.istream, start=1):
+        for match in pattern.finditer(line):
+            print(f'{line_no}:{match.groups()[0]}')
 
-usage="Usage: $(basename "$0") [-h | --help]
-
-Returns the positional command line arguments that are present in stdin. The
-options are extracted using the regex provided by the CLI_OPTIONS_REGEX
-environment variable. If the regex is not provided, then the default regex is
-used.
-
-where:
-    options:
-    -h --help   shows this help messages"
-
-parse_args() {
-    while [[ $# -gt 0 ]]; do
-        case "$1" in
-            -h | --help)
-                echo "$usage"
-                exit 0
-                ;;
-            *)
-                echo "Unknown argument: $1"
-                echo "$usage"
-                exit 1
-                ;;
-        esac
-        shift
-    done
-}
-
-parse_args "$@"
-rg --only-matching --line-number --replace '$1' -- "^\s*(-{1,2}[a-zA-Z0-9\-_=]+)"
