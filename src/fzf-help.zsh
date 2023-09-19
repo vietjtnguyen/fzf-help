@@ -18,3 +18,14 @@ fzf-help-widget() {
     zle end-of-line
     return $ret
 }
+fzf-man-widget() {
+    [[ -z $BUFFER ]] && { zle reset-prompt; return }
+
+    local opts=$(echo $BUFFER | HELP_MESSAGE_CMD='man $cmd' $this_dir/fzf-select-option | tr "\n" " ")
+    BUFFER="$BUFFER$opts"
+
+    local ret=$?
+    zle reset-prompt
+    zle end-of-line
+    return $ret
+}
