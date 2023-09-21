@@ -10,7 +10,7 @@ this_dir=$(dirname $(realpath ${BASH_SOURCE:-$0}))
 fzf-help-widget() {
     [[ -z $BUFFER ]] && { zle reset-prompt; return }
 
-    local opts=$(echo $BUFFER | $this_dir/fzf-select-option | tr "\n" " ")
+    local opts=$(echo $BUFFER | MANWIDTH=$(($COLUMNS * 3 / 4 - 1)) $this_dir/fzf-select-option | tr "\n" " ")
     BUFFER="$BUFFER$opts"
 
     local ret=$?
