@@ -41,4 +41,4 @@ parse_args "$@"
 [[ $cmd ]] || { echo "Missing <cmd> argument"; echo "$usage"; exit 1; }
 [[ $HELP_MESSAGE_CMD ]] || HELP_MESSAGE_CMD="$cmd --help"
 
-eval $HELP_MESSAGE_CMD || eval "$cmd -h" || eval "$cmd -help" || exit 1
+( eval $HELP_MESSAGE_CMD || eval "$cmd -h" || eval "$cmd -help" || exit 1 ) 2>&1
